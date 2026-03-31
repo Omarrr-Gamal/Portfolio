@@ -12,9 +12,6 @@
     <body>
       <div id="root"></div>
       <script>
-        // GitHub Pages SPA fallback:
-        // `404.html` redirects deep links to `/<base>/?__spa=<originalPath>`.
-        // Restore the path BEFORE the React app/router loads.
         (function () {
           var params = new URLSearchParams(window.location.search);
           var spa = params.get("__spa");
