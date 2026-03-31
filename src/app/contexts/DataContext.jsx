@@ -103,7 +103,7 @@ const initialContact = {
   email: "gomar0935@gmail.com",
   phone: "+201550649921",
   location: "Cairo, Egypt",
-  whatsapp: "01550649921",
+  whatsapp: "+201550649921",
   socials: {
     facebook: "https://www.facebook.com/omar.gamal.323462?sfnsn=scwspwa&mibextid=RUbZ1f",
     instagram: "https://www.instagram.com/omar.gamal_190?utm_source=qr&igsh=ZzB1M3phYW85ZnJw",
