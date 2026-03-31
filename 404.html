@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting...</title>
+    <script>
+      (function () {
+        // Must match Vite `base` (and your GitHub Pages subpath).
+        var base = "/Portfolio";
+
+        // Example failing URL:
+        //   https://username.github.io/Portfolio/about
+        // GitHub Pages serves this 404.html instead of index.html.
+        var path = window.location.pathname || "/";
+        var search = window.location.search || "";
+
+        // Convert `/Portfolio/about` -> `/about`
+        var rel = path.indexOf(base) === 0 ? path.slice(base.length) : path;
+        if (!rel.startsWith("/")) rel = "/" + rel;
+
+        // Redirect to the app entry, carrying the original path.
+        var target = base + "/?__spa=" + encodeURIComponent(rel + search);
+        window.location.replace(target);
+      })();
+    </script>
+  </head>
+  <body>Redirecting...</body>
+</html>
+
