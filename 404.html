@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+        (function () {
+            var base = "/Portfolio";
+
+            var path = window.location.pathname || "/";
+            var search = window.location.search || "";
+
+            var rel = path.indexOf(base) === 0 ? path.slice(base.length) : path;
+            if (!rel.startsWith("/")) rel = "/" + rel;
+
+            var target = base + "/?__spa=" + encodeURIComponent(rel + search);
+            window.location.replace(target);
+        })();
+    </script>
+</head>
+
+<body>
+    Redirecting...
+</body>
+
+</html>

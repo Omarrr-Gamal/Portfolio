@@ -4,12 +4,23 @@
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Complete Task</title>
+      <title>Portfolio</title>
     </head>
 
     <body>
       <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
+      <script>
+        (function () {
+          var params = new URLSearchParams(window.location.search);
+          var spa = params.get("__spa");
+          if (!spa) return;
+          params.delete("__spa");
+          var rest = params.toString();
+          var newUrl = window.location.pathname.replace(/\/$/, "") + spa + (rest ? "?" + rest : "");
+          history.replaceState(null, "", newUrl);
+        })();
+      </script>
+      <script type="module" src="/src/main.jsx"></script>
     </body>
   </html>
   

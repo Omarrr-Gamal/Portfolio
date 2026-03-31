@@ -44,19 +44,10 @@ Access the admin panel at `/admin/login`
 The application is fully functional with mock data. All admin changes are persisted in localStorage.
 
 ### Admin Access
-Navigate to `/admin/login` and use the demo credentials above.
+Navigate to `/admin/login` 
 
 ### Public Portfolio
 Visit the root `/` to see the public portfolio.
-
-## 📝 API Integration
-
-The application is structured for easy backend integration. All API calls are centralized in `/src/app/services/api.js` with TODO comments marking where to connect your backend:
-
-```javascript
-// TODO: CONNECT TO BACKEND HERE
-// return await api.post('/auth/login', { email, password });
-```
 
 ## 🔒 Security Note
 

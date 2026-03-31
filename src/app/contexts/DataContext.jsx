@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import profileImg from '../../assets/images/profileImg.jpg';
 
 const DataContext = createContext();
 
@@ -10,12 +11,34 @@ export const useData = () => {
   return context;
 };
 
+const withBase = (assetPath) => {
+  const base = import.meta.env.BASE_URL || '/';
+  const normalized = String(assetPath || '').replace(/^\/+/, '');
+  return `${base}${normalized}`;
+};
+
+const isHttpUrl = (value) => /^https?:\/\//i.test(String(value || ''));
+
+const normalizeImageUrl = (value) => {
+  if (!value) return value;
+  if (isHttpUrl(value) || String(value).startsWith('data:')) return value;
+
+  if (String(value).includes('src/assets/images/profileImg.jpg')) return profileImg;
+
+  // If it already includes the correct base, keep it.
+  const base = import.meta.env.BASE_URL || '/';
+  if (String(value).startsWith(base)) return value;
+
+  // Handle values like "/Skills/react.png" 
+  return withBase(String(value));
+};
+
 // Initial mock data
 const initialHeroData = {
   greeting: "Hello, I'm",
   name: "Omar Gamal Abdelhamed",
   description: "FullStack Developer specialized in React & Laravel.",
-  profileImage: "src/assets/images/profileImg.jpg"
+  profileImage: profileImg
 };
 
 const initialProjects = [
@@ -23,7 +46,7 @@ const initialProjects = [
     id: 1,
     title: "Bistro Elegance Restaurant",
     description: "--",
-    image: "/ProjectsCover/BistroEleganceRestaurant.png",
+    image: withBase("ProjectsCover/BistroEleganceRestaurant.png"),
     githubLink: "https://github.com/Omarrr-Gamal/Bistro-Elegance-Restaurant.git",
     liveLink: "https://omarrr-gamal.github.io/Bistro-Elegance-Restaurant/",
     featured: true
@@ -32,7 +55,7 @@ const initialProjects = [
     id: 2,
     title: "Dentist Site",
     description: "--",
-    image: "/ProjectsCover/DentistSite.png",
+    image: withBase("ProjectsCover/DentistSite.png"),
     githubLink: "https://github.com/Omarrr-Gamal/Dentist.git",
     liveLink: "https://omarrr-gamal.github.io/Dentist/",
     featured: true
@@ -41,7 +64,7 @@ const initialProjects = [
     id: 3,
     title: "Educopete",
     description: "--",
-    image: "/ProjectsCover/Educopete.png",
+    image: withBase("ProjectsCover/Educopete.png"),
     githubLink: "https://github.com/Hagargaballah/Educompete.git",
     liveLink: "https://hagargaballah.github.io/Educompete/",
     featured: true
@@ -50,7 +73,7 @@ const initialProjects = [
     id: 4,
     title: "Furni Project",
     description: "--",
-    image: "/ProjectsCover/FurniProject.png",
+    image: withBase("ProjectsCover/FurniProject.png"),
     githubLink: "https://github.com/Omarrr-Gamal/Furni-Project.git",
     liveLink: "https://omarrr-gamal.github.io/Furni-Project/",
     featured: false
@@ -58,18 +81,18 @@ const initialProjects = [
 ];
 
 const initialSkills = [
-  { id: 1, name: "React", icon: "/Skills/react.png" },
-  { id: 1, name: "Html", icon: "/Skills/html.png" },
-  { id: 1, name: "Css", icon: "/Skills/css.png" },
-  { id: 2, name: "JavaScript", icon: "/Skills/js.png" },
-  { id: 2, name: "BootStrap", icon: "/Skills/bootstrap.png" },
-  { id: 5, name: "Tailwind", icon: "/Skills/Tailwind.png" },
-  { id: 4, name: "TypeScript", icon: "/Skills/ts.png" },
-  { id: 6, name: "SQL", icon: "/Skills/sql.png" },
-  { id: 10, name: "Git", icon: "/Skills/git.png" },
-  { id: 10, name: "Figma", icon: "/Skills/figma.png" },
-  { id: 10, name: "Canva", icon: "/Skills/canva.png" },
-  { id: 10, name: "Laravel", icon: "/Skills/laravel.png" },
+  { id: 1, name: "React", icon: withBase("Skills/react.png") },
+  { id: 1, name: "Html", icon: withBase("Skills/html.png") },
+  { id: 1, name: "Css", icon: withBase("Skills/css.png") },
+  { id: 2, name: "JavaScript", icon: withBase("Skills/js.png") },
+  { id: 2, name: "BootStrap", icon: withBase("Skills/bootstrap.png") },
+  { id: 5, name: "Tailwind", icon: withBase("Skills/Tailwind.png") },
+  { id: 4, name: "TypeScript", icon: withBase("Skills/ts.png") },
+  { id: 6, name: "SQL", icon: withBase("Skills/sql.png") },
+  { id: 10, name: "Git", icon: withBase("Skills/git.png") },
+  { id: 10, name: "Figma", icon: withBase("Skills/figma.png") },
+  { id: 10, name: "Canva", icon: withBase("Skills/canva.png") },
+  { id: 10, name: "Laravel", icon: withBase("Skills/laravel.png") },
 ];
 
 const initialAbout = {
@@ -94,17 +117,28 @@ const initialContact = {
 export const DataProvider = ({ children }) => {
   const [heroData, setHeroData] = useState(() => {
     const saved = localStorage.getItem('heroData');
-    return saved ? JSON.parse(saved) : initialHeroData;
+    const parsed = saved ? JSON.parse(saved) : initialHeroData;
+    const normalized = {
+      ...parsed,
+      profileImage: normalizeImageUrl(parsed?.profileImage) || profileImg,
+    };
+    return normalized;
   });
 
   const [projects, setProjects] = useState(() => {
     const saved = localStorage.getItem('projects');
-    return saved ? JSON.parse(saved) : initialProjects;
+    const parsed = saved ? JSON.parse(saved) : initialProjects;
+    return Array.isArray(parsed)
+      ? parsed.map((p) => ({ ...p, image: normalizeImageUrl(p?.image) }))
+      : initialProjects;
   });
 
   const [skills, setSkills] = useState(() => {
     const saved = localStorage.getItem('skills');
-    return saved ? JSON.parse(saved) : initialSkills;
+    const parsed = saved ? JSON.parse(saved) : initialSkills;
+    return Array.isArray(parsed)
+      ? parsed.map((s) => ({ ...s, icon: normalizeImageUrl(s?.icon) }))
+      : initialSkills;
   });
 
   const [aboutData, setAboutData] = useState(() => {

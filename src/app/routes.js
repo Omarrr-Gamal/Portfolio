@@ -14,7 +14,12 @@ import { AdminTheme } from './admin/AdminTheme';
 import { AdminAbout } from './admin/AdminAbout';
 import { AdminContact } from './admin/AdminContact';
 
-export const router = createBrowserRouter([
+const basename = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL.slice(0, -1)
+  : import.meta.env.BASE_URL;
+
+export const router = createBrowserRouter(
+  [
   {
     path: '/',
     Component: MainLayout,
@@ -42,4 +47,6 @@ export const router = createBrowserRouter([
       { path: 'contact', Component: AdminContact },
     ],
   },
-]);
+  ],
+  { basename }
+);

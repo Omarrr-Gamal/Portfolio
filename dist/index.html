@@ -4,13 +4,24 @@
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Complete Task</title>
-      <script type="module" crossorigin src="/assets/index-CX5ohSQg.js"></script>
-      <link rel="stylesheet" crossorigin href="/assets/index-Cl1iwxYM.css">
+      <title>Portfolio</title>
+      <script type="module" crossorigin src="/Portfolio/assets/index-xUErcVeY.js"></script>
+      <link rel="stylesheet" crossorigin href="/Portfolio/assets/index-Cl1iwxYM.css">
     </head>
 
     <body>
       <div id="root"></div>
+      <script>
+        (function () {
+          var params = new URLSearchParams(window.location.search);
+          var spa = params.get("__spa");
+          if (!spa) return;
+          params.delete("__spa");
+          var rest = params.toString();
+          var newUrl = window.location.pathname.replace(/\/$/, "") + spa + (rest ? "?" + rest : "");
+          history.replaceState(null, "", newUrl);
+        })();
+      </script>
     </body>
   </html>
   
